@@ -31,9 +31,43 @@
 </div>
 </div>
 
-  <div class="ans">
-    <span class="ques">
+  <div class="container ques">
+    <img src="assets/Ques.png" alt="" style="width:100%;">
+    <div class="centered">
       {{currentQuestion}}
-    </span>
+    </div>
   
+  </div>
+
+  <div class="ansContainer">
+    <div (click)="handle('b')" class="container answer" id="db">
+      <img src="assets/ans1.png" alt="" style="width:100%;"id="b">
+      <div class="centered ans">
+        {{currentAnswerB}}
+      </div>
+    </div>
+
+    <div (click)="handle('a')" class="container answer" id="da">
+      <img src="assets/ans2.png" alt="" style="width:100%;"id="a">
+      <div class="centered ans">
+        {{currentAnswerA}}
+      </div>
+    </div>
+
+  </div>
+  <div class="ansContainer">
+    <div (click)="handle('d')" class="container answer" id="dd">
+      <img src="assets/ans1.png" alt="" style="width:100%;"id="d">
+      <div class="centered ans">
+        {{currentAnswerD}}
+      </div>
+    </div>
+
+    <div (click)="handle('c')" class="container answer" id="dc" >
+      <img src="assets/ans2.png" alt="" style="width:100%;"id="c">
+      <div class="centered ans">
+        {{currentAnswerC}}
+      </div>
+    </div>
+
   </div>
