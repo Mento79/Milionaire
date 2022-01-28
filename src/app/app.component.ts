@@ -16,6 +16,10 @@ export class AppComponent {
   answered=false
 
   handle(x:string){
+    var editJsonFile = require("edit-json-file");
+    var file = editJsonFile("/assets/foo.json");
+  
+    file.set("planet", "Earth");
 
     if (!this.answered){
       this.answered=true
