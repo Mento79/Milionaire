@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.google.gson.JsonPrimitive;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -13,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Scanner;
 
 import org.json.JSONArray;
@@ -27,6 +29,7 @@ public class HelloController {
   int num=0;
   File myObj;
   ArrayList<Question>QuesArr = new ArrayList<Question>();
+  JSONArray arr = new JSONArray();
 
 
 
@@ -50,11 +53,12 @@ public class HelloController {
   @FXML
   protected void onHelloButtonClick() throws IOException {
     Question x=new Question(question.getText(),a1.getText(),a2.getText(),a3.getText(),a4.getText(),Integer.parseInt(selector1.getValue()));
-    QuesArr.add(x);
+    arr.put(x);
+
     FileWriter myWriter = new FileWriter(myObj);
-    myWriter.write(gson.toJson(QuesArr));
+    myWriter.write(gson.toJson(arr));
     myWriter.close();
-    System.out.println(gson.toJson(QuesArr));
+    System.out.println(gson.toJson(arr));
   }
 
   @FXML
@@ -68,15 +72,20 @@ public class HelloController {
         data = myReader.nextLine();
       }
       myReader.close();
-      JSONArray arr = new JSONArray(data);
-      System.out.println(arr);
-      for(int i = 0; i < arr.length(); i++){
-        JSONObject curr = new JSONObject(arr.get(i).toString());
-        System.out.println(curr);
-        System.out.println(arr.get(i));
-        selector.getItems().add(curr.getString("question"));
-      }
 
+      System.out.println(data);
+      if(!Objects.equals(data, "")) {
+        JSONObject jsonObject = new JSONObject(data);
+        JSONArray Tarr = jsonObject.getJSONArray("myArrayList");
+        System.out.println(Tarr);
+        for (int i = 0; i < Tarr.length(); i++) {
+          JSONObject curr = new JSONObject(Tarr.get(i).toString());
+          System.out.println(curr);
+          System.out.println(Tarr.get(i));
+          arr.put(new JsonPrimitive(curr.toString()));
+          selector.getItems().add(curr.getString("question"));
+        }
+      }
     } catch ( FileNotFoundException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
