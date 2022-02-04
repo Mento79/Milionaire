@@ -125,7 +125,7 @@ public class HelloController {
     selector1.getItems().addAll("1","2","3");
     String data="";
     try {
-      myObj = new File("C:\\Users\\Mento\\Documents\\GitHub\\Milionaire\\src\\que.json");
+      myObj = new File("C:\\Users\\Mento\\Documents\\GitHub\\Milionaire\\src\\app\\que.json");
       Scanner myReader = new Scanner(myObj);
       while (myReader.hasNextLine()) {
         data = myReader.nextLine();
