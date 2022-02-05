@@ -12,11 +12,11 @@ export class AppComponent {
   title = 'Milion';
   Questions=(data as any).default  
 
-  currentQuestion=" مين اكل الجبنة"
-  currentAnswerA="  ا. محسن"
-  currentAnswerB="  ب. محسنة"
-  currentAnswerC="  ج. محسنين"
-  currentAnswerD="  د. محسنون"
+  currentQuestion=""
+  currentAnswerA=""
+  currentAnswerB=""
+  currentAnswerC=""
+  currentAnswerD=""
   level=0
   Randomed:any=[]
   selected:any=[]
@@ -27,62 +27,46 @@ export class AppComponent {
     if (x=="c"||x=="a"){
       if (x=="a"){
         if (this.currentAnswerA==this.correct){
-          (<HTMLImageElement>document.getElementById(x))!.src="assets/ans2Cor.png"
+          (<HTMLImageElement>document.getElementById(x))!.src="assets/ansC.png"
           this.rightAnswer()
         }
         else{
-          (<HTMLImageElement>document.getElementById(x))!.src="assets/ans2X.png"
-          //lose
+          (<HTMLImageElement>document.getElementById(x))!.src="assets/ansX.png"
+          this.handleLoss()
         }
       }
       else{
         if (this.currentAnswerC==this.correct){
-          (<HTMLImageElement>document.getElementById(x))!.src="assets/ans2Cor.png"
+          (<HTMLImageElement>document.getElementById(x))!.src="assets/ansC.png"
           this.rightAnswer()
         }
         else{
-          (<HTMLImageElement>document.getElementById(x))!.src="assets/ans2X.png"
-          //lose
+          (<HTMLImageElement>document.getElementById(x))!.src="assets/ansX.png"
+          this.handleLoss()
+
         }
       }
     }
     else{
       if (x=="b"){
         if (this.currentAnswerB==this.correct){
-          (<HTMLImageElement>document.getElementById(x))!.src="assets/ans1Cor.png"
+          (<HTMLImageElement>document.getElementById(x))!.src="assets/ansC.png"
           this.rightAnswer()
         }
         else{
-          (<HTMLImageElement>document.getElementById(x))!.src="assets/ans1X.png"        
-          //lose
+          (<HTMLImageElement>document.getElementById(x))!.src="assets/ansX.png"        
+          this.handleLoss()
         }
       
       }
       else{
         if (this.currentAnswerD==this.correct){
-          (<HTMLImageElement>document.getElementById(x))!.src="assets/ans1Cor.png"
+          (<HTMLImageElement>document.getElementById(x))!.src="assets/ansC.png"
           this.rightAnswer()
         }
         else{
-          timer(500).subscribe(y => { 
-            (<HTMLImageElement>document.getElementById(x))!.src="assets/ans1X.png" ;       
-            (<HTMLImageElement>document.getElementById(this.searchForCorrect()))!.src="assets/ans1Cor.png" ;       
-            timer(500).subscribe(y => { 
-              (<HTMLImageElement>document.getElementById(this.searchForCorrect()))!.src="assets/ans1.png"        
-              timer(500).subscribe(y => { 
-                (<HTMLImageElement>document.getElementById(this.searchForCorrect()))!.src="assets/ans1Cor.png"        
-              })
-            })
-          })
-          timer(200).subscribe(y => { 
-            (<HTMLImageElement>document.getElementById(x))!.src="assets/ans1X.png"        
-          })
-          timer(200).subscribe(y => { 
-            (<HTMLImageElement>document.getElementById(x))!.src="assets/ans1.png"        
-          })
-          timer(200).subscribe(y => { 
-            (<HTMLImageElement>document.getElementById(x))!.src="assets/ans1X.png"        
-          })
+          (<HTMLImageElement>document.getElementById(x))!.src="assets/ansX.png" ;       
+          this.handleLoss()
           //lose
         }
 
@@ -90,7 +74,20 @@ export class AppComponent {
     }
   }
 
+  handleLoss(){
+    timer(500).subscribe(y => { 
+      (<HTMLImageElement>document.getElementById(this.searchForCorrect()))!.src="assets/ansC.png" ;       
+      timer(500).subscribe(y => { 
+        (<HTMLImageElement>document.getElementById(this.searchForCorrect()))!.src="assets/ans.png"        
+        timer(500).subscribe(y => { 
+          (<HTMLImageElement>document.getElementById(this.searchForCorrect()))!.src="assets/ansC.png"        
+        })
+      })
+    })
+
+  }
   searchForCorrect():string{
+    
     switch(this.correct){
       case this.currentAnswerA:
         return "a"
@@ -122,10 +119,10 @@ export class AppComponent {
       document.getElementById("db")!.className="container answer";
       document.getElementById("dc")!.className="container answer";
       document.getElementById("dd")!.className="container answer";
-      (<HTMLImageElement>document.getElementById("a"))!.src="assets/ans1.png";
-      (<HTMLImageElement>document.getElementById("b"))!.src="assets/ans2.png";
-      (<HTMLImageElement>document.getElementById("c"))!.src="assets/ans1.png";
-      (<HTMLImageElement>document.getElementById("d"))!.src="assets/ans2.png";
+      (<HTMLImageElement>document.getElementById("a"))!.src="assets/ans.png";
+      (<HTMLImageElement>document.getElementById("b"))!.src="assets/ans.png";
+      (<HTMLImageElement>document.getElementById("c"))!.src="assets/ans.png";
+      (<HTMLImageElement>document.getElementById("d"))!.src="assets/ans.png";
       this.answered=false
       this.qSelect()
     })
