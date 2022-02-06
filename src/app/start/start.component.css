@@ -1,0 +1,29 @@
+.btns{
+    display: flex;
+}
+
+
+.btn
+{
+    margin: auto  ;
+    margin-top: 20%;
+    text-align: center;
+    height: 160px;
+    width: 200px;
+    background-color:black;
+    border-radius: 50%;
+    border :12px solid #1b88e7;
+    transition-duration: 0.4s;
+
+}
+.start{
+    font-size: 50px;
+    color: white;
+}
+
+.btn:hover
+{
+    background-color:rgb(212, 210, 96);
+    border-radius: 50%;
+    cursor: pointer;
+}
