@@ -184,7 +184,7 @@ export class GameFlowComponent implements OnInit {
     this.Randomed=["A1","A2","A3","A4"]
     var stage=Math.floor(this.level/5)+1
     while(true){
-    var curI=Math.floor(Math.random()*this.Questions.myArrayList.length)
+    var curI=Math.floor(Math.random()*this.Questions.length)
     var st=false
     for(let i of this.selected){
       console.log("i= "+i +"  curI=" +curI)
@@ -196,10 +196,9 @@ export class GameFlowComponent implements OnInit {
     if (st){
       continue
     }
-    var cur=this.Questions.myArrayList[curI]
+    var cur=this.Questions[curI]
     console.log(cur)
-    var tempI=cur.indexOf("level")+7
-    var temp= +cur[tempI]
+    var temp= +cur.level
     console.log(stage)
     console.log(temp)
 
@@ -215,7 +214,7 @@ export class GameFlowComponent implements OnInit {
   constructor(private httpClient: HttpClient,private router: Router,private route:ActivatedRoute){}
 
   loadQuestion(num:number ){
-    var current=this.Questions.myArrayList[num]
+    var current=this.Questions[num]
     this.currentQuestion=this.load(current,"question")
 
     var i = Math.floor((Math.random()*this.Randomed.length))
@@ -233,26 +232,34 @@ export class GameFlowComponent implements OnInit {
 
   
   }
-  load(current:string , wanted:string){
-    var tempI=current.indexOf(wanted)+wanted.length+3
-    var tempII=tempI
-    var tempS=""
-    while (current[tempII]!='"'){
-      tempII++;
+  load(current:any , wanted:string){
+    var temp=""
+    switch (wanted){
+      case "question":
+        temp=current.question
+        break;
+      case "A1":
+        temp=current.A1
+        this.correct=temp
+        break;
+      case "A2":
+        temp=current.A2
+        break;
+      case "A3":
+        temp=current.A3
+        break;
+      case "A4":
+        temp=current.A4
+        break;
     }
-    tempS=current.slice(tempI,tempII)
-    console.log(tempI)
-    console.log(tempII)
-    console.log(tempS)
-    if(wanted=="A1")
-      this.correct=tempS
-    return tempS
+
+    return temp
   }
 
 
 
   ngOnInit(){
-    var current=this.Questions.myArrayList[0]
+    var current=this.Questions[0]
     console.log(current)
     this.qSelect()  
   

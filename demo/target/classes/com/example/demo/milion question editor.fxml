@@ -22,6 +22,5 @@
       <Button fx:id="ok" layoutX="358.0" layoutY="361.0" mnemonicParsing="false" onAction="#onHelloButtonClick" text="تم" />
       <ComboBox fx:id="selector" layoutX="61.0" layoutY="31.0" onAction="#handleSelection" prefHeight="25.0" prefWidth="475.0" promptText="اختار سؤال لتعديله من هنا" />
       <ChoiceBox fx:id="selector1" layoutX="285.0" layoutY="243.0" prefHeight="25.0" prefWidth="45.0" />
-      <Button fx:id="delete" layoutX="121.0" layoutY="361.0" mnemonicParsing="false" onAction="#delete" text="مسح" />
    </children>
 </AnchorPane>

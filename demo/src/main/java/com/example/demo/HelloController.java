@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,11 +15,14 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
+//import org.json.JSONArray;
+//import org.json.JSONObject;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class HelloController {
   HashMap<String, Object> Ques = new HashMap<String, Object>();
@@ -61,13 +65,22 @@ public class HelloController {
     }
     else {
       Question x = new Question(question.getText(), a1.getText(), a2.getText(), a3.getText(), a4.getText(), Integer.parseInt(selector1.getValue()));
-      arr.put(x);
+      JSONObject xy=new JSONObject();
+      xy.put("question",x.question);
+      xy.put("A1",x.A1);
+      xy.put("A2",x.A2);
+      xy.put("A3",x.A3);
+      xy.put("A4",x.A4);
+      xy.put("level",x.level);
+      arr.add(xy);
 
       FileWriter myWriter = new FileWriter(myObj);
       myWriter.write(gson.toJson(arr));
       myWriter.close();
       System.out.println(gson.toJson(arr));
-      selector.getItems().add(x.question);
+      String y=x.question;
+      y+=x.level;
+      selector.getItems().add(y);
       question.setText("");
       a1.setText("");
       a2.setText("");
@@ -82,16 +95,18 @@ public class HelloController {
   @FXML
   protected void handleSelection() throws IOException {
     if (sel&&!selector.getValue().equals("edit")) {
-      for (int i = 0; i < Tarr.length(); i++) {
-        curr = new JSONObject(Tarr.get(i).toString());
+      for (int i = 0; i < arr.size(); i++) {
+        curr = (JSONObject)arr.get(i);
         System.out.println(curr);
-        if (selector.getValue().equals(curr.getString("question"))) {
-          question.setText(curr.getString("question"));
-          a1.setText(curr.getString("A1"));
-          a2.setText(curr.getString("A2"));
-          a3.setText(curr.getString("A3"));
-          a4.setText(curr.getString("A4"));
-          selector1.setValue(String.valueOf(curr.getInt("level")));
+        String y=String.valueOf(curr.get("question"));
+        y+=String.valueOf(curr.get("level"));
+        if (selector.getValue().equals(y)) {
+          question.setText(String.valueOf(curr.get("question")));
+          a1.setText(String.valueOf(curr.get("A1")));
+          a2.setText(String.valueOf(curr.get("A2")));
+          a3.setText(String.valueOf(curr.get("A3")));
+          a4.setText(String.valueOf(curr.get("A4")));
+          selector1.setValue(String.valueOf(curr.get("level")));
           currI = i;
           break;
         }
@@ -100,18 +115,20 @@ public class HelloController {
     }
   }
 
-  @FXML
   protected void delete() throws IOException {
     if (currI == -1) {
       return;
     } else {
       sel =false;
+
+      selector.getItems().add("edit");
       selector.setValue("edit");
       System.out.println("ta7t el set el2ola");
-      Tarr.remove(currI);
       arr.remove(currI);
       sel =false;
-      selector.getItems().remove(curr.getString("question"));
+      String y=String.valueOf(curr.get("question"));
+      y+=String.valueOf(curr.get("level"));
+      selector.getItems().remove(y);
       FileWriter myWriter = new FileWriter(myObj);
       myWriter.write(gson.toJson(arr));
       myWriter.close();
@@ -134,19 +151,20 @@ public class HelloController {
 
       System.out.println(data);
       if(!Objects.equals(data, "")) {
-        JSONObject jsonObject = new JSONObject(data);
-        Tarr = jsonObject.getJSONArray("myArrayList");
-        System.out.println(Tarr);
-        selector.getItems().add("edit");
-        for (int i = 0; i < Tarr.length(); i++) {
-          JSONObject curr = new JSONObject(Tarr.get(i).toString());
-          System.out.println(curr);
-          System.out.println(Tarr.get(i));
-          arr.put(new JsonPrimitive(curr.toString()));
-          selector.getItems().add(curr.getString("question"));
+        JSONParser jsonParser = new JSONParser();
+        JSONObject x;
+        String y;
+        arr=(JSONArray) jsonParser.parse(data);
+        System.out.println(arr);
+        for(int i=0;i<arr.size();i++){
+           x=(JSONObject)arr.get(i);
+          y=String.valueOf(x.get("question"));
+          y+=String.valueOf(x.get("level"));
+          selector.getItems().add(y);
+
         }
       }
-    } catch ( FileNotFoundException e) {
+    } catch (FileNotFoundException | ParseException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
