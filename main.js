@@ -11,6 +11,7 @@ function createWindow () {
     icon: `file://${__dirname}/dist/assets/logo.png`
   })
 
+  win.removeMenu(``)
 
   win.loadURL(`file://${__dirname}/dist/milion/index.html`)
 
